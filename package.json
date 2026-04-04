@@ -1,0 +1,9 @@
+{
+  "name": "repertree-ai",
+    "version": "1.0.0",
+      "description": "Chess opening repertoire explorer with AI-powered recommendations",
+        "private": true,
+          "main": "index.html",
+            "license": "MIT",
+              "author": "Villegas2003"
+              }
