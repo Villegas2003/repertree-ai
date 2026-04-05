@@ -176,6 +176,55 @@ main{display:flex;flex:1;overflow:hidden;background:var(--bg-0)}
 }
 .sl::after{content:'';flex:1;height:1px;background:var(--border);opacity:.5}
 
+/* ── Explorer Table ──────────────────────────────────── */
+.explorer-section{margin-bottom:16px}
+.explorer-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:8px;
+}
+.explorer-info{font-size:11px;color:var(--text-2);line-height:1.5}
+.explorer-info b{color:var(--text-0)}
+.explorer-table{width:100%;border-collapse:collapse}
+.explorer-table th{
+  font-size:10px;font-weight:600;color:var(--text-3);text-transform:uppercase;
+  letter-spacing:.05em;padding:6px 8px;text-align:left;
+  border-bottom:1px solid var(--border);
+}
+.explorer-table th:nth-child(2){text-align:center}
+.explorer-table th:nth-child(3){text-align:left;width:55%}
+.explorer-table td{padding:7px 8px;border-bottom:1px solid rgba(42,48,64,.4);vertical-align:middle}
+.explorer-table tr{cursor:pointer;transition:background var(--transition)}
+.explorer-table tbody tr:hover{background:var(--bg-3)}
+.exp-move{
+  font-family:var(--mono);font-size:13px;font-weight:600;color:var(--accent);
+  display:inline-block;padding:2px 6px;border-radius:4px;
+  transition:background var(--transition);
+}
+.explorer-table tbody tr:hover .exp-move{background:var(--accent-dim)}
+.exp-games{
+  font-family:var(--mono);font-size:12px;color:var(--text-1);text-align:center;
+  display:flex;align-items:center;justify-content:center;gap:4px;
+}
+.exp-pct{font-size:9px;color:var(--text-3);font-weight:500}
+.result-bar{
+  display:flex;height:18px;border-radius:4px;overflow:hidden;
+  background:var(--bg-1);min-width:100px;
+}
+.result-bar .rw{background:#e8e8e8;transition:width .3s}
+.result-bar .rd{background:#888;transition:width .3s}
+.result-bar .rb{background:#333;transition:width .3s}
+.result-bar span{
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:600;min-width:0;overflow:hidden;
+}
+.result-bar .rw{color:#222}.result-bar .rd{color:#fff}.result-bar .rb{color:#ccc}
+.explorer-empty{
+  text-align:center;padding:16px 10px;color:var(--text-3);font-size:12px;
+  background:var(--bg-2);border:1px dashed var(--border);border-radius:var(--radius);
+  line-height:1.6;
+}
+.exp-divider{height:1px;background:var(--border);margin:12px 0;opacity:.5}
+
 /* ── Moves Tab ───────────────────────────────────────── */
 .mr{display:flex;align-items:center;padding:2px 4px;border-radius:var(--radius-sm)}
 .mr:hover{background:var(--bg-3)}
@@ -387,6 +436,12 @@ select.inp{cursor:pointer;-webkit-appearance:none;appearance:none;background-ima
 
       <!-- Moves tab -->
       <div class="tp on" id="tp-moves">
+        <div class="explorer-section" id="explorerSection">
+          <div class="sl">Explorador de aperturas</div>
+          <div id="explorerContent"></div>
+        </div>
+        <div class="exp-divider" id="expDivider" style="display:none"></div>
+        <div class="sl" id="movesLabel" style="display:none">Movimientos de la partida</div>
         <div id="mL"></div>
       </div>
 
@@ -731,14 +786,17 @@ return C;
 var S = {
   chess: null, moves: [], idx: -1, flipped: false, selSq: null, legalSqs: [],
   lastMv: null, apiKey: '', rep: { white: [], black: [] }, selCol: 'white',
-  tree: { children: {}, count: 0 }, sf: null
+  tree: { children: {}, count: 0 }, sf: null,
+  // Stats tree: each node = {children:{}, count:0, wins:0, draws:0, losses:0}
+  statsTree: { children: {}, count: 0, wins: 0, draws: 0, losses: 0 },
+  lichessUser: ''
 };
 var SYM = {wK:'♔',wQ:'♕',wR:'♖',wB:'♗',wN:'♘',wP:'♙',bK:'♚',bQ:'♛',bR:'♜',bB:'♝',bN:'♞',bP:'♟'};
 var FL = 'abcdefgh'.split('');
 
 function init(){
   S.chess = new MiniChess();
-  render(); renderMoves(); updOp(); renderLbls(); renderRepLines(); initSF();
+  render(); renderMoves(); updOp(); renderLbls(); renderRepLines(); renderExplorer(); initSF();
 }
 
 // ---- Board ----
@@ -787,7 +845,7 @@ function clickSq(sq){
       if(p&&p.type==='p'){var rk=sq[1];if((p.color==='w'&&rk==='8')||(p.color==='b'&&rk==='1'))pr='q';}
       var mv=S.chess.move({from:S.selSq,to:sq,promotion:pr});
       if(mv){S.moves=S.moves.slice(0,S.idx+1);S.moves.push(mv);S.idx=S.moves.length-1;S.lastMv=mv;
-        addTree(S.moves.slice(0,S.idx+1));S.selSq=null;S.legalSqs=[];render();renderMoves();updOp();sfEval();}
+        addTree(S.moves.slice(0,S.idx+1));S.selSq=null;S.legalSqs=[];render();renderMoves();updOp();renderExplorer();sfEval();}
     }else if(sq===S.selSq){S.selSq=null;S.legalSqs=[];render();}
     else{var p=S.chess.get(sq);
       if(p&&p.color===S.chess.turn()){S.selSq=sq;S.legalSqs=S.chess.moves({square:sq,verbose:true}).map(function(m){return m.to;});}
@@ -813,17 +871,17 @@ function renderMoves(){
 function replayTo(idx){
   S.chess.reset();S.lastMv=null;
   for(var i=0;i<=idx;i++){S.chess.move(S.moves[i].san);if(i===idx)S.lastMv=S.moves[i];}
-  S.idx=idx;S.selSq=null;S.legalSqs=[];render();renderMoves();updOp();
+  S.idx=idx;S.selSq=null;S.legalSqs=[];render();renderMoves();updOp();renderExplorer();
 }
 function gotoM(i){replayTo(i);}
 function nav(dir){
-  if(dir==='start'){S.chess.reset();S.idx=-1;S.lastMv=null;S.selSq=null;S.legalSqs=[];render();renderMoves();updOp();rstEv();}
+  if(dir==='start'){S.chess.reset();S.idx=-1;S.lastMv=null;S.selSq=null;S.legalSqs=[];render();renderMoves();updOp();renderExplorer();rstEv();}
   else if(dir==='back'){if(S.idx>0)replayTo(S.idx-1);else if(S.idx===0)nav('start');}
   else if(dir==='fwd'){if(S.idx<S.moves.length-1)replayTo(S.idx+1);}
   else if(dir==='end'){if(S.moves.length>0)replayTo(S.moves.length-1);}
 }
 function flipBoard(){S.flipped=!S.flipped;render();renderLbls();}
-function resetBoard(){S.chess.reset();S.moves=[];S.idx=-1;S.lastMv=null;S.selSq=null;S.legalSqs=[];render();renderMoves();updOp();rstEv();}
+function resetBoard(){S.chess.reset();S.moves=[];S.idx=-1;S.lastMv=null;S.selSq=null;S.legalSqs=[];render();renderMoves();updOp();renderExplorer();rstEv();}
 function rstEv(){document.getElementById('evF').style.height='50%';document.getElementById('evTop').textContent='0.0';document.getElementById('evBot').textContent='';}
 
 // ---- FEN/PGN ----
@@ -837,7 +895,7 @@ function fenDialog(){
     S.idx=S.moves.length-1;S.lastMv=S.idx>=0?S.moves[S.idx]:null;toast('PGN cargado','ok');
   }else if(S.chess.load(v.trim())){S.moves=[];S.idx=-1;S.lastMv=null;toast('FEN cargado','ok');}
   else{toast('FEN/PGN inválido','err');return;}
-  S.selSq=null;S.legalSqs=[];render();renderMoves();updOp();
+  S.selSq=null;S.legalSqs=[];render();renderMoves();updOp();renderExplorer();
 }
 
 // ---- Opening DB ----
@@ -890,6 +948,104 @@ function addTree(mvArr){
   var n=S.tree;
   for(var i=0;i<mvArr.length;i++){var san=mvArr[i].san;if(!n.children[san])n.children[san]={move:san,children:{},count:0};n=n.children[san];n.count++;}
 }
+// Stats tree with win/draw/loss tracking
+function addStatsTree(sanArr, result, userColor){
+  // result: 'win', 'draw', 'loss' from user's perspective
+  var n=S.statsTree;
+  for(var i=0;i<sanArr.length;i++){
+    var san=sanArr[i];
+    if(!n.children[san]) n.children[san]={move:san,children:{},count:0,wins:0,draws:0,losses:0};
+    n=n.children[san];
+    n.count++;
+    if(result==='win') n.wins++;
+    else if(result==='draw') n.draws++;
+    else n.losses++;
+  }
+}
+// Get stats node for current position
+function getStatsNode(){
+  var hist=S.moves.slice(0,S.idx+1).map(function(m){return m.san;});
+  var n=S.statsTree;
+  for(var i=0;i<hist.length;i++){
+    if(!n.children[hist[i]]) return null;
+    n=n.children[hist[i]];
+  }
+  return n;
+}
+// Render explorer table
+function renderExplorer(){
+  var container=document.getElementById('explorerContent');
+  var divider=document.getElementById('expDivider');
+  var movesLabel=document.getElementById('movesLabel');
+  var node=getStatsNode();
+
+  if(!node || !Object.keys(node.children).length){
+    if(S.statsTree.count===0){
+      container.innerHTML='<div class="explorer-empty">Importa partidas desde Lichess para ver estadísticas de tus aperturas.</div>';
+    } else {
+      container.innerHTML='<div class="explorer-empty">Sin datos para esta posición.</div>';
+    }
+    divider.style.display=S.moves.length?'block':'none';
+    movesLabel.style.display=S.moves.length?'block':'none';
+    return;
+  }
+
+  var keys=Object.keys(node.children);
+  // Sort by count descending
+  keys.sort(function(a,b){return node.children[b].count - node.children[a].count;});
+
+  var totalGames=0;
+  keys.forEach(function(k){totalGames+=node.children[k].count;});
+
+  var h='<div class="explorer-info" style="margin-bottom:8px">';
+  h+='Mostrando movimientos jugados por <b>'+( S.lichessUser||'usuario')+'</b> en esta posición.';
+  h+=' <b>'+totalGames+'</b> partida'+(totalGames!==1?'s':'')+' encontrada'+(totalGames!==1?'s':'')+'.</div>';
+
+  h+='<table class="explorer-table"><thead><tr><th>Jugada</th><th>Partidas</th><th>Resultados</th></tr></thead><tbody>';
+
+  for(var i=0;i<keys.length;i++){
+    var k=keys[i], child=node.children[k];
+    var w=child.wins, d=child.draws, l=child.losses, total=child.count;
+    var wp=total?Math.round(w/total*100):0;
+    var dp=total?Math.round(d/total*100):0;
+    var lp=total?100-wp-dp:0;
+    // Ensure at least 1% width for non-zero segments so they're visible
+    var ww=w>0?Math.max(wp,3):0, dw=d>0?Math.max(dp,3):0, lw=l>0?Math.max(lp,3):0;
+    var sumw=ww+dw+lw;if(sumw>100){var scale=100/sumw;ww=Math.round(ww*scale);dw=Math.round(dw*scale);lw=100-ww-dw;}
+
+    h+='<tr onclick="explorerClick(\''+k+'\')">';
+    h+='<td><span class="exp-move">'+k+'</span></td>';
+    h+='<td><span class="exp-games">'+total+'</span></td>';
+    h+='<td><div class="result-bar">';
+    if(w>0) h+='<span class="rw" style="width:'+ww+'%">'+(wp>=10?wp+'%':'')+'</span>';
+    if(d>0) h+='<span class="rd" style="width:'+dw+'%">'+(dp>=10?dp+'%':'')+'</span>';
+    if(l>0) h+='<span class="rb" style="width:'+lw+'%">'+(lp>=10?lp+'%':'')+'</span>';
+    h+='</div></td>';
+    h+='</tr>';
+  }
+  h+='</tbody></table>';
+
+  // Legend
+  h+='<div style="display:flex;gap:12px;margin-top:8px;font-size:10px;color:var(--text-3)">';
+  h+='<span style="display:flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#e8e8e8"></span> Victoria</span>';
+  h+='<span style="display:flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#888"></span> Tablas</span>';
+  h+='<span style="display:flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:2px;background:#333;border:1px solid var(--border)"></span> Derrota</span>';
+  h+='</div>';
+
+  container.innerHTML=h;
+  divider.style.display=S.moves.length?'block':'none';
+  movesLabel.style.display=S.moves.length?'block':'none';
+}
+// Click a move in the explorer to play it on the board
+function explorerClick(san){
+  var mv=S.chess.move(san);
+  if(mv){
+    S.moves=S.moves.slice(0,S.idx+1);
+    S.moves.push(mv);S.idx=S.moves.length-1;S.lastMv=mv;
+    S.selSq=null;S.legalSqs=[];
+    render();renderMoves();updOp();renderExplorer();sfEval();
+  }
+}
 function renderTree(){
   var c=document.getElementById('treeC');
   if(!Object.keys(S.tree.children).length){c.innerHTML='<div class="empty">Sin datos. Agrega líneas o importa desde Lichess.</div>';return;}
@@ -911,7 +1067,7 @@ function loadTreeP(pathStr){
   S.chess.reset();S.moves=[];S.lastMv=null;
   for(var i=0;i<mvs.length;i++){var r=S.chess.move(mvs[i]);if(r)S.moves.push(r);}
   S.idx=S.moves.length-1;S.lastMv=S.idx>=0?S.moves[S.idx]:null;
-  S.selSq=null;S.legalSqs=[];render();renderMoves();updOp();swTById('moves');
+  S.selSq=null;S.legalSqs=[];render();renderMoves();updOp();renderExplorer();swTById('moves');
 }
 
 // ---- Repertoire ----
@@ -934,7 +1090,7 @@ function loadLn(i){
   var l=S.rep[S.selCol][i];if(!l)return;
   S.chess.reset();S.moves=[];S.lastMv=null;
   for(var j=0;j<l.arr.length;j++){var r=S.chess.move(l.arr[j]);if(r)S.moves.push(r);}
-  S.idx=S.moves.length-1;S.lastMv=S.idx>=0?S.moves[S.idx]:null;S.selSq=null;S.legalSqs=[];render();renderMoves();updOp();
+  S.idx=S.moves.length-1;S.lastMv=S.idx>=0?S.moves[S.idx]:null;S.selSq=null;S.legalSqs=[];render();renderMoves();updOp();renderExplorer();
 }
 function delLn(i){if(!confirm('¿Eliminar?'))return;S.rep[S.selCol].splice(i,1);renderRepLines();toast('Eliminada');}
 function selC(c,btn){S.selCol=c;document.querySelectorAll('.cb').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');renderRepLines();}
@@ -962,15 +1118,26 @@ async function impLic(){
     var text=await res.text();
     var games=text.trim().split('\n').filter(function(l){return l.trim();}).map(function(l){try{return JSON.parse(l);}catch(x){return null;}}).filter(Boolean);
     var proc=0,aw=0,ab=0;
+    S.lichessUser=user;
+    // Reset stats tree for fresh import
+    S.statsTree={children:{},count:0,wins:0,draws:0,losses:0};
     for(var g of games){
       if(!g.moves)continue;
       var isW=(g.players&&g.players.white&&g.players.white.user&&g.players.white.user.name||'').toLowerCase()===user.toLowerCase();
       var isB=(g.players&&g.players.black&&g.players.black.user&&g.players.black.user.name||'').toLowerCase()===user.toLowerCase();
       if(!isW&&!isB)continue;var gc=isW?'white':'black';
       if(col==='white'&&gc!=='white')continue;if(col==='black'&&gc!=='black')continue;
+      // Determine game result from user's perspective
+      var gameResult='draw';
+      if(g.winner){
+        if((g.winner==='white'&&gc==='white')||(g.winner==='black'&&gc==='black')) gameResult='win';
+        else gameResult='loss';
+      }
       var raw=g.moves.split(' ').slice(0,20),tmp=new MiniChess(),sarr=[];
       for(var m of raw){if(!m||['1-0','0-1','1/2-1/2','*'].includes(m))break;var r=tmp.move(m);if(r)sarr.push(r.san);else break;}
       if(sarr.length<3)continue;
+      // Always add to stats tree (including duplicates for accurate stats)
+      addStatsTree(sarr, gameResult, gc);
       var ls=sarr.join(' ');
       if(!S.rep[gc].some(function(l){return l.moves===ls;})){
         S.rep[gc].push({id:Date.now()+Math.random(),name:g.opening&&g.opening.name||'Importada',moves:ls,arr:sarr,color:gc,from:'lichess'});
@@ -980,7 +1147,7 @@ async function impLic(){
       proc++;pf.style.width=(30+(proc/games.length)*60)+'%';
     }
     pf.style.width='100%';st.innerHTML='<span style="color:var(--green)">✓</span> '+proc+' partidas · Nuevas: <b>'+aw+'</b> blancas, <b>'+ab+'</b> negras';
-    renderRepLines();toast(proc+' partidas importadas','ok');
+    renderRepLines();renderExplorer();toast(proc+' partidas importadas','ok');
   }catch(err){st.textContent='✕ '+err.message;pf.style.width='0%';toast(err.message,'err');}
 }
 
