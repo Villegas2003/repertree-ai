@@ -24,35 +24,36 @@
   .header {
     background: var(--bg-1);
     border-bottom: 1px solid var(--border);
-    padding: 0 20px;
+    padding: 0 24px;
     display: flex;
     align-items: center;
-    gap: 16px;
-    height: 52px;
+    gap: 20px;
+    height: 60px;
     flex-shrink: 0;
     position: relative;
     z-index: 10;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   }
 
   .logo {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 16px;
+    gap: 10px;
+    font-size: 18px;
     font-weight: 800;
     letter-spacing: -0.02em;
     white-space: nowrap;
   }
 
   .logo-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
     background: linear-gradient(135deg, var(--accent), #d4860a);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 15px;
+    font-size: 18px;
     line-height: 1;
     box-shadow: 0 2px 8px rgba(232, 168, 56, 0.3);
   }
@@ -83,9 +84,9 @@
   }
 
   .nav-link {
-    padding: 6px 12px;
+    padding: 8px 16px;
     border-radius: var(--radius-sm);
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
     color: var(--text-2);
     text-decoration: none;
@@ -110,19 +111,19 @@
   }
 
   .hb {
-    padding: 6px 12px;
+    padding: 8px 16px;
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     background: var(--bg-3);
     color: var(--text-1);
     cursor: pointer;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 500;
     font-family: var(--font-body);
     transition: all var(--transition);
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
   }
 
   .hb:hover {
