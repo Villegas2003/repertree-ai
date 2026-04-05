@@ -16,6 +16,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <a href="#how">Cómo funciona</a>
         <a href="#stack">Tecnología</a>
       </div>
+      <button id="langToggle" class="nav-toggle nav-toggle-lang">ES</button>
+      <button id="themeToggle" class="nav-toggle nav-toggle-theme">☾</button>
       <a href="/app" class="nav-cta">Abrir App</a>
     </div>
   </nav>
@@ -23,12 +25,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <!-- Hero -->
   <section class="hero">
     <div class="hero-inner">
-      <span class="hero-badge">Explorador de Aperturas con IA</span>
-      <h1 class="hero-title">Domina tus aperturas de ajedrez con inteligencia artificial</h1>
-      <p class="hero-sub">Importa tus partidas de Lichess, analiza tu repertorio con Claude AI y Stockfish, y descubre lagunas en tus variantes favoritas.</p>
+      <span class="hero-badge" data-i18n="hero-badge">Explorador de Aperturas con IA</span>
+      <h1 class="hero-title" data-i18n="hero-title">Domina tus aperturas de ajedrez con inteligencia artificial</h1>
+      <p class="hero-sub" data-i18n="hero-sub">Importa tus partidas de Lichess, analiza tu repertorio con Claude AI y Stockfish, y descubre lagunas en tus variantes favoritas.</p>
       <div class="hero-actions">
-        <a href="/app" class="btn-hero-primary">Comenzar ahora &rarr;</a>
-        <a href="#features" class="btn-hero-secondary">Ver funcionalidades</a>
+        <a href="/app" class="btn-hero-primary" data-i18n="btn-primary">Comenzar ahora &rarr;</a>
+        <a href="#features" class="btn-hero-secondary" data-i18n="btn-secondary">Ver funcionalidades</a>
       </div>
     </div>
   </section>
@@ -38,18 +40,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <div class="features-inner">
       <div class="feature-card">
         <div class="feature-icon">♞</div>
-        <h3 class="feature-title">Importación de Lichess</h3>
-        <p class="feature-desc">Importa hasta 5,000 partidas de tu perfil de Lichess con un solo clic. Filtra por color, tipo de partida y más.</p>
+        <h3 class="feature-title" data-i18n="feature-1-title">Importación de Lichess</h3>
+        <p class="feature-desc" data-i18n="feature-1-desc">Importa hasta 5,000 partidas de tu perfil de Lichess con un solo clic. Filtra por color, tipo de partida y más.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">✦</div>
-        <h3 class="feature-title">Análisis con Claude AI</h3>
-        <p class="feature-desc">Recibe consejos estratégicos, detecta lagunas en tu repertorio y obtén recomendaciones de nuevas líneas con IA.</p>
+        <h3 class="feature-title" data-i18n="feature-2-title">Análisis con Claude AI</h3>
+        <p class="feature-desc" data-i18n="feature-2-desc">Recibe consejos estratégicos, detecta lagunas en tu repertorio y obtén recomendaciones de nuevas líneas con IA.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">⚡</div>
-        <h3 class="feature-title">Motor Stockfish</h3>
-        <p class="feature-desc">Evaluación en tiempo real de posiciones con Stockfish integrado directamente en tu navegador via Web Worker.</p>
+        <h3 class="feature-title" data-i18n="feature-3-title">Motor Stockfish</h3>
+        <p class="feature-desc" data-i18n="feature-3-desc">Evaluación en tiempo real de posiciones con Stockfish integrado directamente en tu navegador via Web Worker.</p>
       </div>
     </div>
   </section>
@@ -57,22 +59,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <!-- How it works -->
   <section class="how" id="how">
     <div class="how-inner">
-      <h2 class="section-title">Cómo funciona</h2>
+      <h2 class="section-title" data-i18n="how-title">Cómo funciona</h2>
       <div class="steps">
         <div class="step">
           <div class="step-num">1</div>
-          <h4 class="step-title">Importa tus partidas</h4>
-          <p class="step-desc">Conecta tu usuario de Lichess e importa tus partidas clasificadas. El sistema analiza las primeras 20 jugadas de cada partida.</p>
+          <h4 class="step-title" data-i18n="step-1-title">Importa tus partidas</h4>
+          <p class="step-desc" data-i18n="step-1-desc">Conecta tu usuario de Lichess e importa tus partidas clasificadas. El sistema analiza las primeras 20 jugadas de cada partida.</p>
         </div>
         <div class="step">
           <div class="step-num">2</div>
-          <h4 class="step-title">Explora tu repertorio</h4>
-          <p class="step-desc">Navega el árbol de aperturas con estadísticas de victorias, derrotas y tablas. Ve qué líneas juegas más y cuáles evitas.</p>
+          <h4 class="step-title" data-i18n="step-2-title">Explora tu repertorio</h4>
+          <p class="step-desc" data-i18n="step-2-desc">Navega el árbol de aperturas con estadísticas de victorias, derrotas y tablas. Ve qué líneas juegas más y cuáles evitas.</p>
         </div>
         <div class="step">
           <div class="step-num">3</div>
-          <h4 class="step-title">Mejora con IA</h4>
-          <p class="step-desc">Claude AI analiza tu repertorio, encuentra variantes débiles y sugiere mejoras personalizadas para tu estilo de juego.</p>
+          <h4 class="step-title" data-i18n="step-3-title">Mejora con IA</h4>
+          <p class="step-desc" data-i18n="step-3-desc">Claude AI analiza tu repertorio, encuentra variantes débiles y sugiere mejoras personalizadas para tu estilo de juego.</p>
         </div>
       </div>
     </div>
@@ -81,31 +83,31 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <!-- Tech Stack -->
   <section class="stack" id="stack">
     <div class="stack-inner">
-      <h2 class="section-title">Tecnología</h2>
+      <h2 class="section-title" data-i18n="tech-title">Tecnología</h2>
       <div class="tech-grid">
         <div class="tech-item">
           <span class="tech-name">Astro</span>
-          <span class="tech-role">Framework</span>
+          <span class="tech-role" data-i18n="tech-role-1">Framework</span>
         </div>
         <div class="tech-item">
           <span class="tech-name">Claude AI</span>
-          <span class="tech-role">Análisis IA</span>
+          <span class="tech-role" data-i18n="tech-role-2">Análisis IA</span>
         </div>
         <div class="tech-item">
           <span class="tech-name">Stockfish</span>
-          <span class="tech-role">Motor de ajedrez</span>
+          <span class="tech-role" data-i18n="tech-role-3">Motor de ajedrez</span>
         </div>
         <div class="tech-item">
           <span class="tech-name">Lichess API</span>
-          <span class="tech-role">Importación</span>
+          <span class="tech-role" data-i18n="tech-role-4">Importación</span>
         </div>
         <div class="tech-item">
           <span class="tech-name">Vercel</span>
-          <span class="tech-role">Hosting</span>
+          <span class="tech-role" data-i18n="tech-role-5">Hosting</span>
         </div>
         <div class="tech-item">
           <span class="tech-name">TypeScript</span>
-          <span class="tech-role">Lenguaje</span>
+          <span class="tech-role" data-i18n="tech-role-6">Lenguaje</span>
         </div>
       </div>
     </div>
@@ -114,9 +116,31 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <!-- Footer -->
   <footer class="landing-footer">
     <div class="footer-inner">
-      <span class="footer-copy">&copy; 2026 ReperTREE AI</span>
-      <div class="footer-links">
-        <a href="https://github.com/Villegas2003/repertree-ai" target="_blank">GitHub</a>
+      <span class="footer-copy" data-i18n="footer-copy">&copy; 2026 JEREMY VILLEGAS.</span>
+      <div class="footer-icons">
+        <a href="mailto:Jrodriguez118910511@gmail.com" class="footer-icon" aria-label="Email" target="_blank">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+            <path d="m22 4-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 4"></path>
+          </svg>
+        </a>
+        <a href="https://www.linkedin.com/in/jeremy-alejandro-villegas-rodriguez" class="footer-icon" aria-label="LinkedIn" target="_blank">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"></path>
+            <circle cx="4" cy="4" r="2"></circle>
+          </svg>
+        </a>
+        <a href="https://github.com/Villegas2003" class="footer-icon" aria-label="GitHub" target="_blank">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+          </svg>
+        </a>
+        <a href="https://wa.me/71166473" class="footer-icon" aria-label="WhatsApp" target="_blank">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21.75 11.75a10 10 0 0 1-10 10h-.5a10 10 0 1 1 9.5-14.4"></path>
+            <path d="M7.26 15.75c1.2 1.2 2.86 2 4.74 2 3.87 0 7-3.13 7-7s-3.13-7-7-7c-3.23 0-5.93 2.2-6.72 5.19m2.26 5.31l-1.6.53.53-1.6 3-3" stroke="currentColor" stroke-width="1.5"></path>
+          </svg>
+        </a>
       </div>
     </div>
   </footer>
@@ -221,6 +245,35 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .nav-cta:hover {
     box-shadow: 0 4px 20px rgba(232, 168, 56, 0.4);
     transform: translateY(-1px);
+  }
+
+  .nav-toggle {
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-2);
+    background: transparent;
+    transition: all 150ms ease;
+    cursor: pointer;
+  }
+
+  .nav-toggle:hover {
+    border-color: var(--border-h);
+    color: var(--text-0);
+    background: var(--bg-3);
+  }
+
+  .nav-toggle-theme {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
   }
 
   /* ── Hero ───────────────────────────────────── */
@@ -466,7 +519,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   /* ── Footer ─────────────────────────────────── */
   .landing-footer {
-    padding: 24px 32px;
+    padding: 32px;
+    background: var(--bg-1);
     border-top: 1px solid var(--border);
   }
 
@@ -479,24 +533,34 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .footer-copy {
-    font-size: 13px;
+    font-size: 12px;
     color: var(--text-3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
 
-  .footer-links {
+  .footer-icons {
     display: flex;
-    gap: 16px;
+    gap: 12px;
   }
 
-  .footer-links a {
-    font-size: 13px;
+  .footer-icon {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--text-3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: var(--text-2);
     text-decoration: none;
-    transition: color 150ms ease;
+    transition: all 150ms ease;
   }
 
-  .footer-links a:hover {
+  .footer-icon:hover {
+    border-color: var(--text-0);
     color: var(--text-0);
+    transform: translateY(-2px);
   }
 
   /* ── Responsive ─────────────────────────────── */
@@ -510,3 +574,116 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     .hero { padding: 130px 20px 80px; }
   }
 </style>
+
+<script>
+  // Initialize theme on page load
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  const themeToggle = document.getElementById('themeToggle');
+  if (themeToggle) {
+    themeToggle.textContent = savedTheme === 'dark' ? '☾' : '☀';
+  }
+
+  // Translations object
+  const translations = {
+    es: {
+      'hero-badge': 'Explorador de Aperturas con IA',
+      'hero-title': 'Domina tus aperturas de ajedrez con inteligencia artificial',
+      'hero-sub': 'Importa tus partidas de Lichess, analiza tu repertorio con Claude AI y Stockfish, y descubre lagunas en tus variantes favoritas.',
+      'btn-primary': 'Comenzar ahora →',
+      'btn-secondary': 'Ver funcionalidades',
+      'feature-1-title': 'Importación de Lichess',
+      'feature-1-desc': 'Importa hasta 5,000 partidas de tu perfil de Lichess con un solo clic. Filtra por color, tipo de partida y más.',
+      'feature-2-title': 'Análisis con Claude AI',
+      'feature-2-desc': 'Recibe consejos estratégicos, detecta lagunas en tu repertorio y obtén recomendaciones de nuevas líneas con IA.',
+      'feature-3-title': 'Motor Stockfish',
+      'feature-3-desc': 'Evaluación en tiempo real de posiciones con Stockfish integrado directamente en tu navegador via Web Worker.',
+      'how-title': 'Cómo funciona',
+      'step-1-title': 'Importa tus partidas',
+      'step-1-desc': 'Conecta tu usuario de Lichess e importa tus partidas clasificadas. El sistema analiza las primeras 20 jugadas de cada partida.',
+      'step-2-title': 'Explora tu repertorio',
+      'step-2-desc': 'Navega el árbol de aperturas con estadísticas de victorias, derrotas y tablas. Ve qué líneas juegas más y cuáles evitas.',
+      'step-3-title': 'Mejora con IA',
+      'step-3-desc': 'Claude AI analiza tu repertorio, encuentra variantes débiles y sugiere mejoras personalizadas para tu estilo de juego.',
+      'tech-title': 'Tecnología',
+      'tech-role-1': 'Framework',
+      'tech-role-2': 'Análisis IA',
+      'tech-role-3': 'Motor de ajedrez',
+      'tech-role-4': 'Importación',
+      'tech-role-5': 'Hosting',
+      'tech-role-6': 'Lenguaje',
+      'footer-copy': '© 2026 JEREMY VILLEGAS.',
+    },
+    en: {
+      'hero-badge': 'Chess Opening Explorer with AI',
+      'hero-title': 'Master your chess openings with artificial intelligence',
+      'hero-sub': 'Import your Lichess games, analyze your repertoire with Claude AI and Stockfish, and discover gaps in your favorite variations.',
+      'btn-primary': 'Get started →',
+      'btn-secondary': 'View features',
+      'feature-1-title': 'Lichess Import',
+      'feature-1-desc': 'Import up to 5,000 games from your Lichess profile with a single click. Filter by color, game type and more.',
+      'feature-2-title': 'Claude AI Analysis',
+      'feature-2-desc': 'Get strategic advice, detect gaps in your repertoire, and receive recommendations for new lines with AI.',
+      'feature-3-title': 'Stockfish Engine',
+      'feature-3-desc': 'Real-time position evaluation with Stockfish integrated directly in your browser via Web Worker.',
+      'how-title': 'How it works',
+      'step-1-title': 'Import your games',
+      'step-1-desc': 'Connect your Lichess username and import your rated games. The system analyzes the first 20 moves of each game.',
+      'step-2-title': 'Explore your repertoire',
+      'step-2-desc': 'Navigate the opening tree with win, loss and draw statistics. See which lines you play most and which you avoid.',
+      'step-3-title': 'Improve with AI',
+      'step-3-desc': 'Claude AI analyzes your repertoire, finds weak variations and suggests personalized improvements for your playing style.',
+      'tech-title': 'Technology',
+      'tech-role-1': 'Framework',
+      'tech-role-2': 'AI Analysis',
+      'tech-role-3': 'Chess Engine',
+      'tech-role-4': 'Import',
+      'tech-role-5': 'Hosting',
+      'tech-role-6': 'Language',
+      'footer-copy': '© 2026 JEREMY VILLEGAS.',
+    }
+  };
+
+  let currentLang = localStorage.getItem('lang') || 'es';
+  const langToggle = document.getElementById('langToggle');
+
+  // Update language toggle button
+  if (langToggle) {
+    langToggle.textContent = currentLang.toUpperCase();
+  }
+
+  // Function to update all translatable text
+  function updateLanguage(lang) {
+    const elements = document.querySelectorAll('[data-i18n]');
+    elements.forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (translations[lang] && translations[lang][key]) {
+        el.textContent = translations[lang][key];
+      }
+    });
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+    if (langToggle) {
+      langToggle.textContent = lang.toUpperCase();
+    }
+  }
+
+  // Language toggle event
+  if (langToggle) {
+    langToggle.addEventListener('click', () => {
+      const newLang = currentLang === 'es' ? 'en' : 'es';
+      updateLanguage(newLang);
+    });
+  }
+
+  // Theme toggle event
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      themeToggle.textContent = newTheme === 'dark' ? '☾' : '☀';
+    });
+  }
+</script>

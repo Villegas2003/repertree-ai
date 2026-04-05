@@ -15,6 +15,7 @@
     <button class="hb" id="btnFlip">⇄ Voltear</button>
     <button class="hb" id="btnNew">↺ Nueva</button>
     <button class="hb" id="btnFen">FEN / PGN</button>
+    <button class="hb" id="themeToggle">☾</button>
     <button class="hb accent" id="btnAnalyze">✦ Analizar IA</button>
   </div>
 </header>
@@ -148,3 +149,22 @@
     .header-nav { display: none; }
   }
 </style>
+
+<script>
+  // Initialize theme from localStorage and apply it
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+
+  const headerThemeToggle = document.getElementById('themeToggle');
+  if (headerThemeToggle) {
+    headerThemeToggle.textContent = savedTheme === 'dark' ? '☾' : '☀';
+
+    headerThemeToggle.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      headerThemeToggle.textContent = newTheme === 'dark' ? '☾' : '☀';
+    });
+  }
+</script>
