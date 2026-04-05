@@ -1,0 +1,95 @@
+/* ── Fonts ─────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* ── Design Tokens ─────────────────────────────────── */
+:root {
+  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Menlo', monospace;
+
+  --bg-0: #0c0e12;
+  --bg-1: #12151b;
+  --bg-2: #181c24;
+  --bg-3: #1e232e;
+  --bg-4: #252b38;
+
+  --border: #2a3040;
+  --border-h: #3a4560;
+
+  --text-0: #f1f3f7;
+  --text-1: #c4cad6;
+  --text-2: #8892a4;
+  --text-3: #5a6478;
+
+  --accent: #e8a838;
+  --accent-h: #f0b84c;
+  --accent-dim: rgba(232, 168, 56, 0.12);
+
+  --blue: #4f8ff7;
+  --blue-dim: rgba(79, 143, 247, 0.12);
+
+  --green: #3dba6c;
+  --green-dim: rgba(61, 186, 108, 0.12);
+
+  --red: #e85555;
+  --red-dim: rgba(232, 85, 85, 0.12);
+
+  --purple: #a855f7;
+  --purple-dim: rgba(168, 85, 247, 0.12);
+
+  --sq-light: #ecd8b8;
+  --sq-dark: #ae7b56;
+  --sq-sel: rgba(100, 200, 120, 0.55);
+  --sq-dot: rgba(0, 0, 0, 0.18);
+  --sq-last: rgba(205, 200, 80, 0.45);
+  --sq-chk: rgba(232, 60, 60, 0.65);
+
+  --radius: 8px;
+  --radius-sm: 6px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.45);
+  --shadow-card: 0 16px 40px rgba(0, 0, 0, 0.25);
+
+  --transition: 150ms ease;
+}
+
+/* ── Reset ─────────────────────────────────────────── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-0);
+  color: var(--text-0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+/* ── Scrollbar ─────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg-4); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-h); }
+
+/* ── Utilities ─────────────────────────────────────── */
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, select, textarea {
+  font-family: var(--font-body);
+}

@@ -1,0 +1,141 @@
+---
+import AppLayout from '../layouts/AppLayout.astro';
+import ChessBoard from '../components/ChessBoard.astro';
+import SidePanel from '../components/SidePanel.astro';
+---
+
+<AppLayout>
+  <ChessBoard />
+  <SidePanel />
+</AppLayout>
+
+<script src="../scripts/chess-engine.js"></script>
+<script src="../scripts/app.js"></script>
+
+<style is:global>
+  /* ── Board Squares ───────────────────────────────── */
+  .sq {
+    width: 56px; height: 56px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; cursor: pointer; transition: background 0.08s;
+  }
+  .sq.l { background: var(--sq-light); }
+  .sq.d { background: var(--sq-dark); }
+  .sq.sel { box-shadow: inset 0 0 0 3px var(--sq-sel); z-index: 2; }
+  .sq.lm::after {
+    content: ''; position: absolute; width: 28%; height: 28%;
+    background: var(--sq-dot); border-radius: 50%; pointer-events: none;
+  }
+  .sq.lc { box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.2); z-index: 2; }
+  .sq.lc::after {
+    content: ''; position: absolute; inset: 3px;
+    border-radius: 50%; border: 3px solid var(--sq-dot); pointer-events: none;
+  }
+  .sq.last { background: var(--sq-last) !important; }
+  .sq.chk { background: var(--sq-chk) !important; box-shadow: inset 0 0 12px rgba(255, 0, 0, 0.35); }
+
+  .pc {
+    font-size: 40px; line-height: 1; user-select: none; z-index: 1;
+    transition: transform 0.1s; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
+  }
+  .sq:hover .pc { transform: scale(1.08); }
+
+  /* ── Explorer Table ──────────────────────────────── */
+  .explorer-empty {
+    text-align: center; padding: 16px 10px; color: var(--text-3);
+    font-size: 12px; background: var(--bg-2); border: 1px dashed var(--border);
+    border-radius: var(--radius); line-height: 1.6;
+  }
+  .explorer-info { font-size: 11px; color: var(--text-2); line-height: 1.5; margin-bottom: 8px; }
+  .explorer-info b { color: var(--text-0); }
+  .explorer-table { width: 100%; border-collapse: collapse; }
+  .explorer-table th {
+    font-size: 10px; font-weight: 600; color: var(--text-3);
+    text-transform: uppercase; letter-spacing: 0.05em; padding: 6px 8px;
+    text-align: left; border-bottom: 1px solid var(--border);
+  }
+  .explorer-table th:nth-child(2) { text-align: center; }
+  .explorer-table th:nth-child(3) { text-align: left; width: 55%; }
+  .explorer-table td { padding: 7px 8px; border-bottom: 1px solid rgba(42, 48, 64, 0.4); vertical-align: middle; }
+  .explorer-table tr { cursor: pointer; transition: background var(--transition); }
+  .explorer-table tbody tr:hover { background: var(--bg-3); }
+  .exp-move {
+    font-family: var(--font-mono); font-size: 13px; font-weight: 600;
+    color: var(--accent); display: inline-block; padding: 2px 6px;
+    border-radius: 4px; transition: background var(--transition);
+  }
+  .explorer-table tbody tr:hover .exp-move { background: var(--accent-dim); }
+  .exp-games {
+    font-family: var(--font-mono); font-size: 12px; color: var(--text-1);
+    text-align: center; display: flex; align-items: center; justify-content: center; gap: 4px;
+  }
+  .result-bar {
+    display: flex; height: 18px; border-radius: 4px; overflow: hidden;
+    background: var(--bg-1); min-width: 100px;
+  }
+  .result-bar .rw { background: #e8e8e8; transition: width 0.3s; }
+  .result-bar .rd { background: #888; transition: width 0.3s; }
+  .result-bar .rb { background: #333; transition: width 0.3s; }
+  .result-bar span {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 600; min-width: 0; overflow: hidden;
+  }
+  .result-bar .rw { color: #222; }
+  .result-bar .rd { color: #fff; }
+  .result-bar .rb { color: #ccc; }
+
+  /* ── Move List ───────────────────────────────────── */
+  .mr { display: flex; align-items: center; padding: 2px 4px; border-radius: var(--radius-sm); }
+  .mr:hover { background: var(--bg-3); }
+  .mn { color: var(--text-3); min-width: 28px; font-size: 11px; font-family: var(--font-mono); font-weight: 500; }
+  .ms {
+    padding: 3px 8px; border-radius: var(--radius-sm); cursor: pointer;
+    font-family: var(--font-mono); font-size: 13px; font-weight: 500;
+    transition: all var(--transition); color: var(--text-1);
+  }
+  .ms:hover { background: var(--bg-4); color: var(--text-0); }
+  .ms.cur { background: var(--accent); color: var(--bg-0); font-weight: 700; }
+
+  /* ── Repertoire Lines ────────────────────────────── */
+  .rl {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    padding: 10px 12px; background: var(--bg-2); border: 1px solid var(--border);
+    border-radius: var(--radius); margin-bottom: 6px; cursor: pointer;
+    transition: all var(--transition);
+  }
+  .rl:hover { border-color: var(--accent); background: var(--bg-3); transform: translateX(2px); }
+  .li { flex: 1; min-width: 0; }
+  .ln { font-size: 12px; font-weight: 600; margin-bottom: 3px; color: var(--text-0); }
+  .lm { font-family: var(--font-mono); font-size: 11px; color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ld {
+    color: var(--text-3); cursor: pointer; padding: 2px 6px; border-radius: var(--radius-sm);
+    font-size: 14px; flex-shrink: 0; margin-left: 8px; transition: all var(--transition);
+  }
+  .ld:hover { background: var(--red-dim); color: var(--red); }
+
+  /* ── Tree ────────────────────────────────────────── */
+  .tn { padding-left: 16px; margin: 2px 0; }
+  .tn-l {
+    display: inline-block; padding: 3px 8px; border-radius: var(--radius-sm);
+    cursor: pointer; font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+    color: var(--text-1); transition: all var(--transition);
+  }
+  .tn-l:hover { background: var(--bg-4); color: var(--accent); }
+  .tn-c { border-left: 1px solid var(--border); margin-left: 8px; padding-left: 4px; }
+  .tn-ct { font-size: 9px; color: var(--blue); margin-left: 3px; font-family: var(--font-mono); font-weight: 600; }
+
+  /* ── Empty & Toast ───────────────────────────────── */
+  .empty { color: var(--text-3); font-size: 12px; text-align: center; padding: 28px 14px; line-height: 1.6; }
+  .toast {
+    position: fixed; bottom: 20px; right: 20px;
+    padding: 10px 16px; border-radius: var(--radius);
+    font-size: 12px; font-weight: 500; z-index: 9999;
+    animation: ti 0.3s cubic-bezier(0.22, 1, 0.36, 1), to 0.3s 2.7s ease forwards;
+    color: #fff; background: var(--bg-4); border: 1px solid var(--border);
+    box-shadow: var(--shadow-lg); font-family: var(--font-body);
+  }
+  .toast.ok { background: rgba(61, 186, 108, 0.15); border-color: rgba(61, 186, 108, 0.3); color: var(--green); }
+  .toast.err { background: rgba(232, 85, 85, 0.15); border-color: rgba(232, 85, 85, 0.3); color: var(--red); }
+  @keyframes ti { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  @keyframes to { to { opacity: 0; transform: translateY(6px); } }
+</style>
