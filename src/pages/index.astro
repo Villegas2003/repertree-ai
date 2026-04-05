@@ -1,141 +1,512 @@
 ---
-import AppLayout from '../layouts/AppLayout.astro';
-import ChessBoard from '../components/ChessBoard.astro';
-import SidePanel from '../components/SidePanel.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<AppLayout>
-  <ChessBoard />
-  <SidePanel />
-</AppLayout>
+<BaseLayout>
+  <!-- Navbar -->
+  <nav class="landing-nav">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <div class="brand-icon">♟</div>
+        <span class="brand-name">ReperTREE</span>
+        <span class="brand-tag">AI</span>
+      </div>
+      <div class="nav-links">
+        <a href="#features">Funcionalidades</a>
+        <a href="#how">Cómo funciona</a>
+        <a href="#stack">Tecnología</a>
+      </div>
+      <a href="/app" class="nav-cta">Abrir App</a>
+    </div>
+  </nav>
 
-<script src="../scripts/chess-engine.js"></script>
-<script src="../scripts/app.js"></script>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <span class="hero-badge">Explorador de Aperturas con IA</span>
+      <h1 class="hero-title">Domina tus aperturas de ajedrez con inteligencia artificial</h1>
+      <p class="hero-sub">Importa tus partidas de Lichess, analiza tu repertorio con Claude AI y Stockfish, y descubre lagunas en tus variantes favoritas.</p>
+      <div class="hero-actions">
+        <a href="/app" class="btn-hero-primary">Comenzar ahora &rarr;</a>
+        <a href="#features" class="btn-hero-secondary">Ver funcionalidades</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features" id="features">
+    <div class="features-inner">
+      <div class="feature-card">
+        <div class="feature-icon">♞</div>
+        <h3 class="feature-title">Importación de Lichess</h3>
+        <p class="feature-desc">Importa hasta 5,000 partidas de tu perfil de Lichess con un solo clic. Filtra por color, tipo de partida y más.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✦</div>
+        <h3 class="feature-title">Análisis con Claude AI</h3>
+        <p class="feature-desc">Recibe consejos estratégicos, detecta lagunas en tu repertorio y obtén recomendaciones de nuevas líneas con IA.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3 class="feature-title">Motor Stockfish</h3>
+        <p class="feature-desc">Evaluación en tiempo real de posiciones con Stockfish integrado directamente en tu navegador via Web Worker.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="how" id="how">
+    <div class="how-inner">
+      <h2 class="section-title">Cómo funciona</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h4 class="step-title">Importa tus partidas</h4>
+          <p class="step-desc">Conecta tu usuario de Lichess e importa tus partidas clasificadas. El sistema analiza las primeras 20 jugadas de cada partida.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h4 class="step-title">Explora tu repertorio</h4>
+          <p class="step-desc">Navega el árbol de aperturas con estadísticas de victorias, derrotas y tablas. Ve qué líneas juegas más y cuáles evitas.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h4 class="step-title">Mejora con IA</h4>
+          <p class="step-desc">Claude AI analiza tu repertorio, encuentra variantes débiles y sugiere mejoras personalizadas para tu estilo de juego.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack -->
+  <section class="stack" id="stack">
+    <div class="stack-inner">
+      <h2 class="section-title">Tecnología</h2>
+      <div class="tech-grid">
+        <div class="tech-item">
+          <span class="tech-name">Astro</span>
+          <span class="tech-role">Framework</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">Claude AI</span>
+          <span class="tech-role">Análisis IA</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">Stockfish</span>
+          <span class="tech-role">Motor de ajedrez</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">Lichess API</span>
+          <span class="tech-role">Importación</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">Vercel</span>
+          <span class="tech-role">Hosting</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">TypeScript</span>
+          <span class="tech-role">Lenguaje</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="landing-footer">
+    <div class="footer-inner">
+      <span class="footer-copy">&copy; 2026 ReperTREE AI</span>
+      <div class="footer-links">
+        <a href="https://github.com/Villegas2003/repertree-ai" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </footer>
+</BaseLayout>
 
 <style is:global>
-  /* ── Board Squares ───────────────────────────────── */
-  .sq {
-    width: 56px; height: 56px;
-    display: flex; align-items: center; justify-content: center;
-    position: relative; cursor: pointer; transition: background 0.08s;
+  /* ── Landing Navbar ─────────────────────────── */
+  .landing-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(12, 14, 18, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
   }
-  .sq.l { background: var(--sq-light); }
-  .sq.d { background: var(--sq-dark); }
-  .sq.sel { box-shadow: inset 0 0 0 3px var(--sq-sel); z-index: 2; }
-  .sq.lm::after {
-    content: ''; position: absolute; width: 28%; height: 28%;
-    background: var(--sq-dot); border-radius: 50%; pointer-events: none;
-  }
-  .sq.lc { box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.2); z-index: 2; }
-  .sq.lc::after {
-    content: ''; position: absolute; inset: 3px;
-    border-radius: 50%; border: 3px solid var(--sq-dot); pointer-events: none;
-  }
-  .sq.last { background: var(--sq-last) !important; }
-  .sq.chk { background: var(--sq-chk) !important; box-shadow: inset 0 0 12px rgba(255, 0, 0, 0.35); }
 
-  .pc {
-    font-size: 40px; line-height: 1; user-select: none; z-index: 1;
-    transition: transform 0.1s; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
   }
-  .sq:hover .pc { transform: scale(1.08); }
 
-  /* ── Explorer Table ──────────────────────────────── */
-  .explorer-empty {
-    text-align: center; padding: 16px 10px; color: var(--text-3);
-    font-size: 12px; background: var(--bg-2); border: 1px dashed var(--border);
-    border-radius: var(--radius); line-height: 1.6;
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
   }
-  .explorer-info { font-size: 11px; color: var(--text-2); line-height: 1.5; margin-bottom: 8px; }
-  .explorer-info b { color: var(--text-0); }
-  .explorer-table { width: 100%; border-collapse: collapse; }
-  .explorer-table th {
-    font-size: 10px; font-weight: 600; color: var(--text-3);
-    text-transform: uppercase; letter-spacing: 0.05em; padding: 6px 8px;
-    text-align: left; border-bottom: 1px solid var(--border);
-  }
-  .explorer-table th:nth-child(2) { text-align: center; }
-  .explorer-table th:nth-child(3) { text-align: left; width: 55%; }
-  .explorer-table td { padding: 7px 8px; border-bottom: 1px solid rgba(42, 48, 64, 0.4); vertical-align: middle; }
-  .explorer-table tr { cursor: pointer; transition: background var(--transition); }
-  .explorer-table tbody tr:hover { background: var(--bg-3); }
-  .exp-move {
-    font-family: var(--font-mono); font-size: 13px; font-weight: 600;
-    color: var(--accent); display: inline-block; padding: 2px 6px;
-    border-radius: 4px; transition: background var(--transition);
-  }
-  .explorer-table tbody tr:hover .exp-move { background: var(--accent-dim); }
-  .exp-games {
-    font-family: var(--font-mono); font-size: 12px; color: var(--text-1);
-    text-align: center; display: flex; align-items: center; justify-content: center; gap: 4px;
-  }
-  .result-bar {
-    display: flex; height: 18px; border-radius: 4px; overflow: hidden;
-    background: var(--bg-1); min-width: 100px;
-  }
-  .result-bar .rw { background: #e8e8e8; transition: width 0.3s; }
-  .result-bar .rd { background: #888; transition: width 0.3s; }
-  .result-bar .rb { background: #333; transition: width 0.3s; }
-  .result-bar span {
-    display: flex; align-items: center; justify-content: center;
-    font-size: 9px; font-weight: 600; min-width: 0; overflow: hidden;
-  }
-  .result-bar .rw { color: #222; }
-  .result-bar .rd { color: #fff; }
-  .result-bar .rb { color: #ccc; }
 
-  /* ── Move List ───────────────────────────────────── */
-  .mr { display: flex; align-items: center; padding: 2px 4px; border-radius: var(--radius-sm); }
-  .mr:hover { background: var(--bg-3); }
-  .mn { color: var(--text-3); min-width: 28px; font-size: 11px; font-family: var(--font-mono); font-weight: 500; }
-  .ms {
-    padding: 3px 8px; border-radius: var(--radius-sm); cursor: pointer;
-    font-family: var(--font-mono); font-size: 13px; font-weight: 500;
-    transition: all var(--transition); color: var(--text-1);
+  .brand-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), #d4860a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 2px 10px rgba(232, 168, 56, 0.3);
   }
-  .ms:hover { background: var(--bg-4); color: var(--text-0); }
-  .ms.cur { background: var(--accent); color: var(--bg-0); font-weight: 700; }
 
-  /* ── Repertoire Lines ────────────────────────────── */
-  .rl {
-    display: flex; align-items: flex-start; justify-content: space-between;
-    padding: 10px 12px; background: var(--bg-2); border: 1px solid var(--border);
-    border-radius: var(--radius); margin-bottom: 6px; cursor: pointer;
-    transition: all var(--transition);
+  .brand-name {
+    background: linear-gradient(135deg, var(--accent), #f0c866);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
-  .rl:hover { border-color: var(--accent); background: var(--bg-3); transform: translateX(2px); }
-  .li { flex: 1; min-width: 0; }
-  .ln { font-size: 12px; font-weight: 600; margin-bottom: 3px; color: var(--text-0); }
-  .lm { font-family: var(--font-mono); font-size: 11px; color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .ld {
-    color: var(--text-3); cursor: pointer; padding: 2px 6px; border-radius: var(--radius-sm);
-    font-size: 14px; flex-shrink: 0; margin-left: 8px; transition: all var(--transition);
-  }
-  .ld:hover { background: var(--red-dim); color: var(--red); }
 
-  /* ── Tree ────────────────────────────────────────── */
-  .tn { padding-left: 16px; margin: 2px 0; }
-  .tn-l {
-    display: inline-block; padding: 3px 8px; border-radius: var(--radius-sm);
-    cursor: pointer; font-family: var(--font-mono); font-size: 12px; font-weight: 500;
-    color: var(--text-1); transition: all var(--transition);
+  .brand-tag {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--bg-0);
+    background: var(--accent);
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+    margin-left: -6px;
   }
-  .tn-l:hover { background: var(--bg-4); color: var(--accent); }
-  .tn-c { border-left: 1px solid var(--border); margin-left: 8px; padding-left: 4px; }
-  .tn-ct { font-size: 9px; color: var(--blue); margin-left: 3px; font-family: var(--font-mono); font-weight: 600; }
 
-  /* ── Empty & Toast ───────────────────────────────── */
-  .empty { color: var(--text-3); font-size: 12px; text-align: center; padding: 28px 14px; line-height: 1.6; }
-  .toast {
-    position: fixed; bottom: 20px; right: 20px;
-    padding: 10px 16px; border-radius: var(--radius);
-    font-size: 12px; font-weight: 500; z-index: 9999;
-    animation: ti 0.3s cubic-bezier(0.22, 1, 0.36, 1), to 0.3s 2.7s ease forwards;
-    color: #fff; background: var(--bg-4); border: 1px solid var(--border);
-    box-shadow: var(--shadow-lg); font-family: var(--font-body);
+  .nav-links {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
   }
-  .toast.ok { background: rgba(61, 186, 108, 0.15); border-color: rgba(61, 186, 108, 0.3); color: var(--green); }
-  .toast.err { background: rgba(232, 85, 85, 0.15); border-color: rgba(232, 85, 85, 0.3); color: var(--red); }
-  @keyframes ti { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-  @keyframes to { to { opacity: 0; transform: translateY(6px); } }
+
+  .nav-links a {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-2);
+    text-decoration: none;
+    transition: all 150ms ease;
+  }
+
+  .nav-links a:hover {
+    color: var(--text-0);
+    background: var(--bg-3);
+    text-decoration: none;
+  }
+
+  .nav-cta {
+    padding: 9px 22px;
+    background: linear-gradient(135deg, var(--accent), #d4920a);
+    color: var(--bg-0) !important;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none !important;
+    box-shadow: 0 2px 12px rgba(232, 168, 56, 0.25);
+    transition: all 150ms ease;
+  }
+
+  .nav-cta:hover {
+    box-shadow: 0 4px 20px rgba(232, 168, 56, 0.4);
+    transform: translateY(-1px);
+  }
+
+  /* ── Hero ───────────────────────────────────── */
+  .hero {
+    padding: 160px 32px 100px;
+    text-align: center;
+    background: radial-gradient(ellipse at 50% 0%, rgba(232, 168, 56, 0.06) 0%, transparent 60%);
+  }
+
+  .hero-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    padding: 6px 18px;
+    border: 1px solid rgba(232, 168, 56, 0.3);
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+    margin-bottom: 28px;
+    background: rgba(232, 168, 56, 0.06);
+  }
+
+  .hero-title {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--text-0);
+    margin-bottom: 20px;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--text-2);
+    max-width: 560px;
+    margin: 0 auto 36px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-hero-primary {
+    padding: 14px 32px;
+    background: linear-gradient(135deg, var(--accent), #d4920a);
+    color: var(--bg-0) !important;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none !important;
+    box-shadow: 0 4px 20px rgba(232, 168, 56, 0.3);
+    transition: all 200ms ease;
+  }
+
+  .btn-hero-primary:hover {
+    box-shadow: 0 6px 28px rgba(232, 168, 56, 0.45);
+    transform: translateY(-2px);
+  }
+
+  .btn-hero-secondary {
+    padding: 14px 32px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-1) !important;
+    text-decoration: none !important;
+    transition: all 200ms ease;
+    background: transparent;
+  }
+
+  .btn-hero-secondary:hover {
+    border-color: var(--border-h);
+    background: var(--bg-3);
+    color: var(--text-0) !important;
+  }
+
+  /* ── Features ───────────────────────────────── */
+  .features {
+    padding: 80px 32px;
+  }
+
+  .features-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .feature-card {
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 28px;
+    transition: all 200ms ease;
+  }
+
+  .feature-card:hover {
+    border-color: var(--border-h);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--accent-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .feature-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-0);
+    margin-bottom: 10px;
+  }
+
+  .feature-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-2);
+  }
+
+  /* ── How it works ───────────────────────────── */
+  .how {
+    padding: 80px 32px;
+    background: var(--bg-1);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .how-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--text-0);
+    text-align: center;
+    margin-bottom: 48px;
+    letter-spacing: -0.02em;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .step {
+    text-align: center;
+  }
+
+  .step-num {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #d4920a);
+    color: var(--bg-0);
+    font-size: 18px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 16px rgba(232, 168, 56, 0.25);
+  }
+
+  .step-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-0);
+    margin-bottom: 10px;
+  }
+
+  .step-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-2);
+  }
+
+  /* ── Tech Stack ─────────────────────────────── */
+  .stack {
+    padding: 80px 32px;
+  }
+
+  .stack-inner {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .tech-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px;
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: all 200ms ease;
+  }
+
+  .tech-item:hover {
+    border-color: var(--accent);
+    background: var(--bg-2);
+  }
+
+  .tech-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-0);
+    margin-bottom: 4px;
+  }
+
+  .tech-role {
+    font-size: 12px;
+    color: var(--text-3);
+    font-weight: 500;
+  }
+
+  /* ── Footer ─────────────────────────────────── */
+  .landing-footer {
+    padding: 24px 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-copy {
+    font-size: 13px;
+    color: var(--text-3);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 16px;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    color: var(--text-2);
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+
+  .footer-links a:hover {
+    color: var(--text-0);
+  }
+
+  /* ── Responsive ─────────────────────────────── */
+  @media (max-width: 768px) {
+    .hero-title { font-size: 32px; }
+    .hero-sub { font-size: 16px; }
+    .features-inner { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; gap: 24px; }
+    .tech-grid { grid-template-columns: repeat(2, 1fr); }
+    .nav-links { display: none; }
+    .hero { padding: 130px 20px 80px; }
+  }
 </style>
